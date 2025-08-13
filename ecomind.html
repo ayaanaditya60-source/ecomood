@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EcoMind 🌱 — Care for the Earth & Your Mind</title>
+  <style>
+    :root{
+      --bg:#f6fbf7;
+      --card:#ffffff;
+      --ink:#163225;
+      --muted:#5c7a6a;
+      --accent:#2e7d32;   /* green */
+      --accent-2:#64b5f6; /* light blue */
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    header{
+      position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#eaf7ec,#f6fbf7 70%);
+      border-bottom:1px solid #e1efe4;
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:20px}
+    .hero{display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .hero h1{margin:0;font-size:clamp(22px,4vw,34px)}
+    .hero p{margin:6px 0 0;color:var(--muted)}
+
+    nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .tab-btn{appearance:none;border:1px solid #d6e5da;background:#fff;padding:10px 14px;border-radius:999px;cursor:pointer;
+      box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:8px}
+    .tab-btn.active{background:var(--accent);color:#fff;border-color:transparent}
+
+    main{padding:22px 0}
+    section.card{background:var(--card);border:1px solid #e7efe9;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:18px}
+    h2{margin:0 0 10px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;gap:14px}
+    @media(min-width:800px){.grid.cols-2{grid-template-columns:1fr 1fr}}
+
+    .challenge{border:1px solid #e6eee8;border-radius:14px;padding:12px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:#eef7f0;border:1px solid #d8e8dc;color:#2e7d32;font-size:12px}
+    .actions{display:flex;gap:8px}
+    button.primary{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer}
+    button.secondary{background:#fff;border:1px solid #cfe4d6;color:var(--ink);padding:8px 12px;border-radius:10px;cursor:pointer}
+    button.ghost{background:transparent;border:1px dashed #b9cfc2;color:var(--muted);padding:8px 12px;border-radius:10px;cursor:pointer}
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .moods{display:flex;gap:10px;flex-wrap:wrap}
+    .mood{font-size:28px;line-height:1;border:1px solid #dbe9df;border-radius:12px;padding:10px 14px;background:#fff;cursor:pointer}
+    .mood.selected{outline:3px solid var(--accent-2)}
+
+    .stats{display:grid;gap:10px}
+    @media(min-width:680px){.stats{grid-template-columns:repeat(3,1fr)}}
+    .stat{background:#fff;border:1px solid #e6eee8;border-radius:14px;padding:16px;text-align:center}
+    .stat h3{margin:0;font-size:28px}
+    .stat p{margin:8px 0 0;color:var(--muted)}
+
+    .points{display:flex;align-items:center;gap:12px}
+    .badge{background:#fff;border:1px solid #e6eee8;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:8px}
+
+    .list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    .list li{background:#fff;border:1px solid #e6eee8;border-radius:12px;padding:10px}
+
+    .footer{color:#6c8b7b;text-align:center;font-size:12px;margin:18px 0 30px}
+    .spacer{height:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <h1>EcoMind 🌱</h1>
+          <p class="muted">Care for the Earth & your Mind — a co‑operative inspired app</p>
+        </div>
+        <div class="badge" title="Your total points">
+          <span>⭐</span>
+          <strong id="pointsTotal">0</strong>
+          <span class="muted">pts</span>
+        </div>
+      </div>
+      <nav>
+        <button class="tab-btn active" data-tab="home">🏠 Home</button>
+        <button class="tab-btn" data-tab="challenges">🗒️ Eco Challenges</button>
+        <button class="tab-btn" data-tab="mood">🙂 Mood Tracker</button>
+        <button class="tab-btn" data-tab="community">🤝 Community Board</button>
+        <button class="tab-btn" data-tab="points">🏅 My Points</button>
+        <button class="tab-btn" data-tab="settings">⚙️ Settings</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- HOME -->
+    <section id="tab-home" class="card">
+      <h2>Welcome</h2>
+      <p class="muted">Complete eco‑friendly challenges and log your mood to earn points and grow our community impact. This single‑file app stores progress locally in your browser (simulating TinyDB).</p>
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>🌿 Why EcoMind?</h3>
+          <ul class="list">
+            <li>Connects environmental action with youth well‑being</li>
+            <li>Encourages co‑operation through shared milestones</li>
+            <li>Simple, fast, and works offline once loaded</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>🎯 Quick Start</h3>
+          <ol class="list">
+            <li>Join a challenge on the Eco Challenges tab</li>
+            <li>Mark it complete to earn points</li>
+            <li>Log your mood to get a nature‑friendly tip</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHALLENGES -->
+    <section id="tab-challenges" class="card" hidden>
+      <h2>Eco Challenges</h2>
+      <p class="muted">Join a challenge, then mark it complete to earn points. Some actions also boost community stats.</p>
+      <div id="challengesList" class="grid"></div>
+    </section>
+
+    <!-- MOOD TRACKER -->
+    <section id="tab-mood" class="card" hidden>
+      <h2>Mood Tracker</h2>
+      <p class="muted">How are you feeling today? Tap a mood to get an eco‑friendly self‑care tip.</p>
+      <div class="moods" id="moodButtons"></div>
+      <div class="spacer"></div>
+      <section class="card" id="tipCard" hidden>
+        <h3 id="tipTitle">Your Eco Tip</h3>
+        <p id="tipText" class="muted"></p>
+      </section>
+    </section>
+
+    <!-- COMMUNITY BOARD -->
+    <section id="tab-community" class="card" hidden>
+      <h2>Our Community Impact</h2>
+      <p class="muted">These stats combine everyone’s eco‑actions (simulated locally for demo/pitch). Completing certain challenges increases the numbers.</p>
+      <div class="stats">
+        <div class="stat">
+          <h3 id="statTrees">0</h3>
+          <p>🌳 Trees Planted</p>
+        </div>
+        <div class="stat">
+          <h3 id="statBottles">0</h3>
+          <p>♻️ Bottles Recycled</p>
+        </div>
+        <div class="stat">
+          <h3 id="statMinutes">0</h3>
+          <p>⏱️ Minutes Spent Outdoors</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MY POINTS -->
+    <section id="tab-points" class="card" hidden>
+      <h2>My Points & Milestones</h2>
+      <div class="points">
+        <div class="badge"><span>⭐</span><strong id="pointsTotal2">0</strong><span class="muted">pts</span></div>
+        <div class="badge" id="currentRank">Seed Starter</div>
+      </div>
+      <div class="spacer"></div>
+      <h3>Milestones</h3>
+      <ul class="list" id="milestonesList"></ul>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="tab-settings" class="card" hidden>
+      <h2>Settings</h2>
+      <button class="secondary" id="btnExport">⬇️ Export My Data</button>
+      <button class="ghost" id="btnImport">⬆️ Import Data</button>
+      <input type="file" id="importFile" accept="application/json" hidden />
+      <button class="secondary" id="btnReset">🗑️ Reset App (Demo)</button>
+      <p class="muted">Export/Import lets you move your demo data between devices. Reset clears local progress.</p>
+    </section>
+
+    <p class="footer">Built for demo/pitch use. To convert to MIT App Inventor, mirror screens & logic using TinyDB, Lists, and Buttons.</p>
+  </main>
+
+  <script>
+  /**********************
+   * Simple State Store *
+   **********************/
+  const STORAGE_KEY = 'ecomind_state_v1';
+  const defaultState = {
+    points: 0,
+    challenges: [
+      { id: 'tree5',   title: 'Plant 5 saplings',   desc: 'Coordinate a mini tree drive with friends.', points: 20, joined:false, done:false, impact:{trees:5} },
+      { id: 'recycle10', title: 'Recycle 10 bottles', desc: 'Collect and drop at a recycling point.', points: 10, joined:false, done:false, impact:{bottles:10} },
+      { id: 'cleanup60', title: '60‑min cleanup',    desc: 'Join/organize a campus or park cleanup.', points: 15, joined:false, done:false, impact:{minutes:60} },
+      { id: 'walk20',   title: 'Nature walk 20 min', desc: 'Spend mindful time outdoors, device‑free.', points: 8,  joined:false, done:false, impact:{minutes:20} },
+      { id: 'swap',     title: 'Host a reuse swap',  desc: 'Trade books/clothes to reduce waste.', points: 18, joined:false, done:false, impact:{} },
+    ],
+    impact:{ trees: 0, bottles: 0, minutes: 0 },
+    moods: [] // {date, mood, tip}
+  };
+
+  const loadState = ()=>{
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(defaultState); }
+    catch(e){ return structuredClone(defaultState); }
+  };
+  const saveState = ()=> localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  let state = loadState();
+
+  /**********************
+   * Tabs Navigation    *
+   **********************/
+  const tabs = {
+    home: document.getElementById('tab-home'),
+    challenges: document.getElementById('tab-challenges'),
+    mood: document.getElementById('tab-mood'),
+    community: document.getElementById('tab-community'),
+    points: document.getElementById('tab-points'),
+    settings: document.getElementById('tab-settings'),
+  };
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const id = btn.dataset.tab;
+      for(const k in tabs){ tabs[k].hidden = (k!==id); }
+      if(id==='challenges') renderChallenges();
+      if(id==='mood') renderMoods();
+      if(id==='community') renderCommunity();
+      if(id==='points') renderPoints();
+      updatePointsBadges();
+    })
+  })
+
+  /**********************
+   * Challenges UI      *
+   **********************/
+  const listEl = document.getElementById('challengesList');
+  function renderChallenges(){
+    listEl.innerHTML = '';
+    state.challenges.forEach(ch=>{
+      const row = document.createElement('div');
+      row.className = 'challenge';
+      const info = document.createElement('div');
+      info.innerHTML = `<strong>${ch.title}</strong><br><span class="muted">${ch.desc}</span><div class="spacer"></div><span class="pill">+${ch.points} pts</span>`;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const joinBtn = document.createElement('button');
+      joinBtn.className = 'secondary';
+      joinBtn.textContent = ch.joined ? 'Joined ✓' : 'Join';
+      joinBtn.disabled = ch.joined;
+      joinBtn.addEventListener('click',()=>{ ch.joined=true; saveState(); renderChallenges(); });
+
+      const doneBtn = document.createElement('button');
+      doneBtn.className = 'primary';
+      doneBtn.textContent = ch.done ? 'Completed ✓' : 'Mark Complete';
+      doneBtn.disabled = !ch.joined || ch.done;
+      doneBtn.addEventListener('click',()=>{
+        ch.done = true; ch.joined = true; state.points += ch.points;
+        // Apply impact to community totals
+        const imp = ch.impact || {};
+        state.impact.trees   += imp.trees   || 0;
+        state.impact.bottles += imp.bottles || 0;
+        state.impact.minutes += imp.minutes || 0;
+        saveState();
+        renderChallenges();
+        updatePointsBadges();
+      });
+
+      actions.append(joinBtn, doneBtn);
+      row.append(info, actions);
+      listEl.appendChild(row);
+    })
+  }
+
+  /**********************
+   * Mood Tracker        *
+   **********************/
+  const moods = [
+    { key:'great', icon:'😄', tip:[
+      'Share your energy: invite a friend to a quick park clean‑up!',
+      'Plan a mini herb garden and teach someone how to plant it.',
+      'Use your good mood to start a 5‑day recycle challenge with buddies.'
+    ]},
+    { key:'good', icon:'🙂', tip:[
+      'Take a 15‑minute walk and collect 3 pieces of litter.',
+      'Swap a plastic bottle for your reusable flask today.',
+      'Water a nearby plant/tree and note it in your journal.'
+    ]},
+    { key:'ok', icon:'😐', tip:[
+      'Sit outside for 10 minutes, notice 5 sounds of nature.',
+      'Sort paper/plastic at home; set aside a small recycle bag.',
+      'Watch clouds for 5 minutes and take 3 deep breaths.'
+    ]},
+    { key:'down', icon:'🙁', tip:[
+      'Green break: step outside, find something green, name its shades.',
+      'Do a slow breathing cycle (4‑4‑4‑4) while looking at a plant.',
+      'Write one thing you appreciate about nature today.'
+    ]},
+    { key:'low', icon:'😢', tip:[
+      'Sit by a window, notice a tree/bird; breathe slowly for 3 minutes.',
+      'Hold a leaf/plant and trace its shape with your finger to ground yourself.',
+      'Text a friend to plan a gentle nature walk together.'
+    ]},
+  ];
+  const moodWrap = document.getElementById('moodButtons');
+  function renderMoods(){
+    moodWrap.innerHTML='';
+    moods.forEach((m,i)=>{
+      const b = document.createElement('button');
+      b.className = 'mood';
+      b.textContent = m.icon;
+      b.title = m.key;
+      b.addEventListener('click',()=> selectMood(i));
+      moodWrap.appendChild(b);
+    })
+  }
+  function selectMood(index){
+    document.querySelectorAll('.mood').forEach((el,i)=> el.classList.toggle('selected', i===index));
+    const m = moods[index];
+    const tip = m.tip[Math.floor(Math.random()*m.tip.length)];
+    const entry = { date: new Date().toISOString().slice(0,10), mood: m.key, tip };
+    state.moods.push(entry);
+    state.points += 2; // small reward for self‑care
+    saveState();
+    document.getElementById('tipCard').hidden = false;
+    document.getElementById('tipTitle').textContent = 'Your Eco Tip';
+    document.getElementById('tipText').textContent = tip;
+    updatePointsBadges();
+  }
+
+  /**********************
+   * Community Board     *
+   **********************/
+  function renderCommunity(){
+    document.getElementById('statTrees').textContent   = state.impact.trees;
+    document.getElementById('statBottles').textContent = state.impact.bottles;
+    document.getElementById('statMinutes').textContent = state.impact.minutes;
+  }
+
+  /**********************
+   * Points & Milestones *
+   **********************/
+  const milestones = [
+    {name:'Seed Starter', need:0},
+    {name:'Eco Helper', need:10},
+    {name:'Green Buddy', need:25},
+    {name:'Planet Pal', need:45},
+    {name:'Earth Guardian', need:70},
+  ];
+  function currentRankFrom(points){
+    let rank = milestones[0].name;
+    milestones.forEach(m=>{ if(points>=m.need) rank=m.name; });
+    return rank;
+  }
+  function renderPoints(){
+    const list = document.getElementById('milestonesList');
+    list.innerHTML='';
+    milestones.forEach(m=>{
+      const li = document.createElement('li');
+      const got = state.points >= m.need;
+      li.innerHTML = `${got?'✅':'⬜️'} <strong>${m.name}</strong> — ${m.need} pts`;
+      list.appendChild(li);
+    })
+  }
+  function updatePointsBadges(){
+    document.getElementById('pointsTotal').textContent = state.points;
+    document.getElementById('pointsTotal2').textContent = state.points;
+    document.getElementById('currentRank').textContent = currentRankFrom(state.points);
+  }
+
+  /**********************
+   * Settings (Export/Import/Reset)
+   **********************/
+  document.getElementById('btnExport').addEventListener('click',()=>{
+    const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.download='ecomind-data.json'; a.click(); URL.revokeObjectURL(url);
+  });
+  document.getElementById('btnImport').addEventListener('click',()=> document.getElementById('importFile').click());
+  document.getElementById('importFile').addEventListener('change', (e)=>{
+    const file = e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ()=>{ try{ state = JSON.parse(reader.result); saveState(); init(); alert('Import successful!'); } catch(err){ alert('Invalid file.'); } };
+    reader.readAsText(file);
+  });
+  document.getElementById('btnReset').addEventListener('click',()=>{
+    if(confirm('Reset all local progress?')){ state = structuredClone(defaultState); saveState(); init(); }
+  });
+
+  /**********************
+   * Boot
+   **********************/
+  function init(){
+    renderChallenges();
+    renderMoods();
+    renderCommunity();
+    renderPoints();
+    updatePointsBadges();
+  }
+  init();
+  </script>
+</body>
+</html>
